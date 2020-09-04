@@ -23,7 +23,7 @@ class GMOCoin(object):
     :type logger: Logger
     """
     endpoint = {
-        'public': 'https://api.coin.z.com/public', 
+        'public': 'https://api.coin.z.com/public',
         'private': 'https://api.coin.z.com/private'
     }
 
@@ -37,7 +37,7 @@ class GMOCoin(object):
 
         self.late_limit = late_limit
         self.last_req_time = 0
-    
+
     def _request(self, method, path, payload, auth):
         for k, v in list(payload.items()):
             if v is None:
@@ -49,7 +49,7 @@ class GMOCoin(object):
         else:
             body = json.dumps(payload)
             query = None
-        
+
         if not auth:
             endpoint = self.endpoint['public']
             self.s.auth = None
@@ -60,7 +60,7 @@ class GMOCoin(object):
         req = Request(method, endpoint + path, data=body, params=query)
         prepped = self.s.prepare_request(req)
         self.logger.debug(f'sending req to {prepped.url}: {prepped.body}')
-        
+
         if self.late_limit:
             now = time.time()
             if self.last_req_time + 1 > now:
@@ -73,7 +73,7 @@ class GMOCoin(object):
             resp.raise_for_status()
         except HTTPError as e:
             self.logger.error(e)
-        
+
         if self.late_limit:
             self.last_req_time = time.time()
 
@@ -136,8 +136,8 @@ class GMOCoin(object):
         :type count: number
         """
         payload = {
-            'symbol': symbol, 
-            'page': page, 
+            'symbol': symbol,
+            'page': page,
             'count': count
         }
         return self._request('GET', '/v1/trades', payload, auth=False)
@@ -196,8 +196,8 @@ class GMOCoin(object):
         :type count: number
         """
         payload = {
-            'symbol': symbol, 
-            'page': page, 
+            'symbol': symbol,
+            'page': page,
             'count': count
         }
         return self._request('GET', '/v1/activeOrders', payload, auth=True)
@@ -216,7 +216,7 @@ class GMOCoin(object):
         :type executionId: number
         """
         payload = {
-            'orderId': orderId, 
+            'orderId': orderId,
             'executionId': executionId
         }
         return self._request('GET', '/v1/executions', payload, auth=True)
@@ -237,8 +237,8 @@ class GMOCoin(object):
         :type count: number
         """
         payload = {
-            'symbol': symbol, 
-            'page': page, 
+            'symbol': symbol,
+            'page': page,
             'count': count
         }
         return self._request('GET', '/v1/latestExecutions', payload, auth=True)
@@ -258,8 +258,8 @@ class GMOCoin(object):
         :type count: number
         """
         payload = {
-            'symbol': symbol, 
-            'page': page, 
+            'symbol': symbol,
+            'page': page,
             'count': count
         }
         return self._request('GET', '/v1/openPositions', payload, auth=True)
@@ -302,11 +302,11 @@ class GMOCoin(object):
         :type size: str
         """
         payload = {
-            'symbol': symbol, 
-            'side': side, 
-            'executionType': executionType, 
-            'price': price, 
-            'size': size, 
+            'symbol': symbol,
+            'side': side,
+            'executionType': executionType,
+            'price': price,
+            'size': size,
         }
         return self._request('POST', '/v1/order', payload, auth=True)
 
@@ -323,7 +323,7 @@ class GMOCoin(object):
         :type price: str
         """
         payload = {
-            'orderId': orderId, 
+            'orderId': orderId,
             'price': price
         }
         return self._request('POST', '/v1/changeOrder', payload, auth=True)
@@ -343,7 +343,7 @@ class GMOCoin(object):
         }
         return self._request('POST', '/v1/cancelOrder', payload, auth=True)
 
-    def closeorder(self, symbol, side, executionType, 
+    def closeorder(self, symbol, side, executionType,
                    settlePosition_positionId, settlePosition_size, price=None):
         """
         決済注文
@@ -365,10 +365,10 @@ class GMOCoin(object):
         :type settlePosition_size: str
         """
         payload = {
-            'symbol': symbol, 
-            'side': side, 
-            'executionType': executionType, 
-            'price': price, 
+            'symbol': symbol,
+            'side': side,
+            'executionType': executionType,
+            'price': price,
             'settlePosition': [
                 {
                     'positionId': settlePosition_positionId,
@@ -397,10 +397,10 @@ class GMOCoin(object):
         :type size: str
         """
         payload = {
-            'symbol': symbol, 
-            'side': side, 
-            'executionType': executionType, 
-            'price': price, 
+            'symbol': symbol,
+            'side': side,
+            'executionType': executionType,
+            'price': price,
             'size': size
         }
         return self._request('POST', '/v1/closeBulkOrder', payload, auth=True)
@@ -418,7 +418,7 @@ class GMOCoin(object):
         :type losscutPrice: str
         """
         payload = {
-            'positionId': positionId, 
+            'positionId': positionId,
             'losscutPrice': losscutPrice
         }
         return self._request('POST', '/v1/changeLosscutPrice', payload, auth=True)
