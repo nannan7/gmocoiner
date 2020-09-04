@@ -280,7 +280,7 @@ class GMOCoin(object):
         }
         return self._request('GET', '/v1/positionSummary', payload, auth=True)
 
-    def order(self, symbol, side, executionType, size, price=None):
+    def order(self, symbol, side, executionType, size, price=None, timeInForce=None):
         """
         注文
 
@@ -300,11 +300,14 @@ class GMOCoin(object):
         :type price: number
         :param size: *required
         :type size: str
+        :param timeInForce: *optional FAK FAS FOK SOK
+        :type timeInForce: str
         """
         payload = {
             'symbol': symbol,
             'side': side,
             'executionType': executionType,
+            'timeInForce': timeInForce,
             'price': price,
             'size': size,
         }
