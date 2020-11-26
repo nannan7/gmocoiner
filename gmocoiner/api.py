@@ -346,6 +346,30 @@ class GMOCoin(object):
         }
         return self._request('POST', '/v1/cancelOrder', payload, auth=True)
 
+    def cancelBulkOrder(self, symbols, side=None, settleType=None, desc=None):
+        """
+        注文の一括キャンセル
+
+        一括で注文を取消します
+        対象: 現物取引、レバレッジ取引
+
+        :param symbols: *required BTC ETH BCH LTC XRP BTC_JPY ETH_JPY BCH_JPY LTC_JPY XRP_JPY
+        :type symbols: list
+        :param side: *optional BUY SELL
+        :type side: string 指定時のみ、指定された売買区分の注文を取消対象にします。
+        :param settleType: *optional OPEN CLOSE
+        :type settleType: string 指定時のみ、現物取引注文と指定された決済区分のレバレッジ取引注文を取消対象にします。
+        :param desc: *optional
+        :type desc: bool
+        """
+        payload = {
+            'symbols': symbols,
+            'side': side,
+            'settleType': settleType,
+            'desc': desc
+        }
+        return self._request('POST', '/v1/cancelBulkOrder', payload, auth=True)
+
     def closeorder(self, symbol, side, executionType,
                    settlePosition_positionId, settlePosition_size, price=None):
         """
