@@ -212,8 +212,8 @@ class GMOCoin(object):
 
         :param orderId: * orderId executionId いずれか一つが必須。
         :type orderId: number
-        :param executionId: * orderId executionId いずれか一つが必須。
-        :type executionId: number
+        :param executionId: * orderId executionId いずれか一つが必須。(executionIdの場合のみカンマ区切りで最大10件まで指定可能)
+        :type executionId: str
         """
         payload = {
             'orderId': orderId,
