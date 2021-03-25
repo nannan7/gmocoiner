@@ -449,3 +449,26 @@ class GMOCoin(object):
             'losscutPrice': losscutPrice
         }
         return self._request('POST', '/v1/changeLosscutPrice', payload, auth=True)
+
+    def getaccesstoken(self):
+        """
+        アクセストークンを取得
+
+        Private WebSocket API用のアクセストークンを取得します。
+        """
+        payload = {}
+        return self._request('POST', '/v1/ws-auth', payload, auth=True)
+
+    def updateaccesstoken(self, token=None):
+        """
+        アクセストークンを延長
+
+        Private WebSocket API用のアクセストークンを延長します。
+
+        :param token: *required
+        :type token: str
+        """
+        payload = {
+            'token': token
+        }
+        return self._request('PUT', '/v1/ws-auth', payload, auth=True)
